@@ -1,0 +1,4 @@
+# pyproject.toml (black configuration)
+[tool.black]
+line-length = 100
+target-version = ["py312"]

@@ -1,0 +1,5 @@
+# ruff.toml
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I", "UP"]   # pycodestyle, pyflakes, isort, pyupgrade
+ignore = ["E501"]                # ignore line length (black handles it)

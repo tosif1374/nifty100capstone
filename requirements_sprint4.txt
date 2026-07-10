@@ -1,0 +1,12 @@
+# requirements.txt — Sprint 4 additions (append to Sprint 1/2/3 list)
+
+# Dashboard
+streamlit==1.35.0
+plotly==5.22.0
+
+# Dev / CI
+ruff==0.4.4          # fast Python linter (replaces flake8 + isort + pyflakes)
+black==24.4.2         # opinionated code formatter
+
+# Redis rate limiter (D27)
+redis[asyncio]==5.0.4  # includes redis.asyncio (async client)

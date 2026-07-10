@@ -1,0 +1,86 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Environment Variables
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build / Distribution
+build/
+dist/
+*.egg-info/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Project Artifacts
+artifacts/
+data/processed/
+data/interim/
+
+# Generated Reports
+reports/
+exports/
+*.pdf
+*.xlsx
+
+# ML Models
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+
+# Cache
+.cache/
+
+# PyCharm
+.idea/
+
+# MyPy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Coverage
+coverage.xml
+
+# Nifty100 snapshots (generated)
+data/snapshots/company_summary.json
