@@ -12,6 +12,7 @@ class CompanyBase(BaseModel):
 class CompanyList(CompanyBase):
     sector: Optional[str] = None
     industry: Optional[str] = None
+    broad_sector: str | None = None
 
 
 class RatioYear(BaseModel):
@@ -29,12 +30,12 @@ class RatiosResponse(BaseModel):
 
 # ---- P&L Trends ---------------------------------------------------------
 class CAGRSummary(BaseModel):
-    years: str
-    start_year:str
-    end_year: str
-    start_value: float
-    end_value: float
-    cagr: Optional[float] = None
+    years: int
+    start_year: int | None
+    end_year: int | None
+    start_value: float | None
+    end_value: float | None
+    cagr: float | None
 
 
 class MarginYear(BaseModel):

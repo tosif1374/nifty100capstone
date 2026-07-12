@@ -4,7 +4,7 @@ import numpy as np
 from .db import query_df
 
 
-def compute_fcf(company_id: int) -> pd.DataFrame:
+def compute_fcf(company_id: str) -> pd.DataFrame:
     """
     Free Cash Flow = Operating Cash Flow - Capital Expenditure (Capex)
     Capex proxy = increase in fixed_assets + cwip (from balance_sheet YoY delta)
@@ -34,7 +34,7 @@ def compute_fcf(company_id: int) -> pd.DataFrame:
     return merged
 
 
-def compute_cfo_quality(company_id: int) -> pd.DataFrame:
+def compute_cfo_quality(company_id: str) -> pd.DataFrame:
     """
     CFO/Net Profit ratio: the primary cash quality indicator.
     > 1.0   — Excellent: cash exceeds reported profit (good accrual quality)
@@ -65,7 +65,7 @@ def compute_cfo_quality(company_id: int) -> pd.DataFrame:
     return df
 
 
-def compute_capex_intensity(company_id: int) -> pd.DataFrame:
+def compute_capex_intensity(company_id: str) -> pd.DataFrame:
     """
     Capex as % of sales: high capex-intensity industries (steel, power,
     cement, telecom) will consistently show 15-30%+ here.
@@ -94,7 +94,7 @@ def compute_capex_intensity(company_id: int) -> pd.DataFrame:
     return df
 
 
-def compute_cashflow_summary(company_id: int) -> dict:
+def compute_cashflow_summary(company_id: str) -> dict:
     """Sprint 3 API-ready summary: latest year FCF, CFO quality flag, and 3-yr avg."""
     fcf = compute_fcf(company_id)
     qual = compute_cfo_quality(company_id)

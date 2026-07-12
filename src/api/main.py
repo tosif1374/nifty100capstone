@@ -3,6 +3,18 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
+from .routers import screener
+from .routers import (
+    company,
+    financials,
+    sectors,
+    auth_router,
+    health,
+    screener,
+    portfolio,
+)
+import sqlite3, os
+from pathlib import Path
 
 from .routers import company, financials, sectors, auth_router
 from .middleware import RateLimitMiddleware, log_requests
@@ -15,8 +27,7 @@ async def lifespan(app: FastAPI):
     On startup: verify nifty100.db is accessible and snapshots exist.
     On shutdown: log clean exit.
     """
-    import sqlite3, os
-    from pathlib import Path
+    
 
     db_path = os.getenv("DB_PATH", "./db/nifty100.db")
     snapshot_path = Path("./data/snapshots/company_summary.json")
@@ -70,6 +81,14 @@ def create_app() -> FastAPI:
     app.include_router(company.router, prefix="/api/v1", tags=["Company"])
     app.include_router(financials.router, prefix="/api/v1", tags=["Financials"])
     app.include_router(sectors.router, prefix="/api/v1", tags=["Sectors"])
+    app.include_router(health.router, prefix="/api/v1")
+    app.include_router(screener.router, prefix="/api/v1")
+    app.include_router(portfolio.router, prefix="/api/v1")
+    app.include_router(
+    screener.router,
+    prefix="/api/v1",
+    tags=["Screener"]
+)
 
     @app.get("/health", tags=["Health"])
     async def health_check():

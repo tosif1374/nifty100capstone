@@ -24,7 +24,7 @@ def compute_roe(company_id):
 
 
 # ---- Return on Capital Employed ------------------------------------------
-def compute_roce(company_id: int) -> pd.DataFrame:
+def compute_roce(company_id: str) -> pd.DataFrame:
     """
     ROCE = EBIT / Capital Employed
     EBIT = operating_profit + other_income - depreciation (approx)
@@ -47,7 +47,7 @@ def compute_roce(company_id: int) -> pd.DataFrame:
 
 
 # ---- Debt-to-Equity -------------------------------------------------------
-def compute_debt_to_equity(company_id: int) -> pd.DataFrame:
+def compute_debt_to_equity(company_id: str) -> pd.DataFrame:
     """D/E = total borrowings / (equity_capital + reserves)"""
     sql = """
         SELECT company_id, year,
@@ -62,7 +62,7 @@ def compute_debt_to_equity(company_id: int) -> pd.DataFrame:
 
 
 # ---- Interest Coverage -----------------------------------------------------
-def compute_interest_coverage(company_id: int) -> pd.DataFrame:
+def compute_interest_coverage(company_id: str) -> pd.DataFrame:
     """ICR = EBIT / Interest. ICR < 1.5 is a stress signal."""
     sql = """
         SELECT company_id, year,
@@ -79,7 +79,7 @@ def compute_interest_coverage(company_id: int) -> pd.DataFrame:
 
 
 # ---- Price-to-Book -----------------------------------------------------------
-def compute_price_to_book(company_id: int) -> pd.DataFrame:
+def compute_price_to_book(company_id: str) -> pd.DataFrame:
     """
     P/B = Close Price / Book Value per Share
     Book Value per Share = (equity_capital + reserves) / shares_outstanding
@@ -120,7 +120,7 @@ def compute_price_to_book(company_id: int) -> pd.DataFrame:
 
 
 # ---- Batch: all ratios for one company, one DataFrame ------------------------
-def compute_all_ratios(company_id: int) -> pd.DataFrame:
+def compute_all_ratios(company_id: str) -> pd.DataFrame:
     """Merge ROE, ROCE, D/E, ICR into one wide DataFrame keyed by (company_id, year)."""
     roe = compute_roe(company_id)[["company_id", "year", "roe_pct"]]
     roce = compute_roce(company_id)[["company_id", "year", "roce_pct"]]
@@ -131,3 +131,57 @@ def compute_all_ratios(company_id: int) -> pd.DataFrame:
     base = base.merge(de, on=["company_id", "year"], how="outer")
     base = base.merge(icr, on=["company_id", "year"], how="outer")
     return base.sort_values("year")
+from math import pow
+
+
+def net_profit_margin(net_profit, sales):
+    if sales == 0:
+        return None
+    return net_profit / sales * 100
+
+
+def roe(net_profit, equity_capital, reserves):
+    equity = equity_capital + reserves
+
+    if equity <= 0:
+        return None
+
+    return net_profit / equity * 100
+
+
+def debt_to_equity(debt, equity):
+    if equity <= 0:
+        return None
+
+    return debt / equity
+
+
+def interest_coverage_ratio(op_profit, interest, depreciation=0):
+    if interest == 0:
+        return None
+
+    return round((op_profit - depreciation * 12) / interest, 1)
+
+def free_cash_flow(cfo, cfi):
+    return cfo + cfi
+
+
+def revenue_cagr(start, end, years):
+    if years < 3:
+        return None, "INSUFFICIENT"
+
+    if start == 0:
+        return None, "ZERO_BASE"
+
+    if start < 0 and end > 0:
+        return None, "TURNAROUND"
+
+    if start > 0 and end < 0:
+        return None, "DECLINE_TO_LOSS"
+
+    if start < 0 and end < 0:
+        return None, "BOTH_NEGATIVE"
+
+    value = ((end / start) ** (1 / years) - 1) * 100
+
+    return value, None

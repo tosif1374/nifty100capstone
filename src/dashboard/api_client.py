@@ -56,12 +56,12 @@ def get_companies(sector: str = None) -> list[dict]:
 
 
 @st.cache_data(ttl=300)
-def get_company_summary(company_id: int) -> dict:
+def get_company_summary(company_id: str) -> dict:
     return _get(f"/api/v1/company/{company_id}")
 
 
 @st.cache_data(ttl=300)
-def get_ratios(company_id: int,
+def get_ratios(company_id: str,
                 start_year: int = None,
                 end_year: int = None) -> dict:
     params = {}
@@ -73,27 +73,27 @@ def get_ratios(company_id: int,
 
 
 @st.cache_data(ttl=300)
-def get_pnl(company_id: int) -> dict:
+def get_pnl(company_id: str) -> dict:
     return _get(f"/api/v1/company/{company_id}/pnl")
 
 
 @st.cache_data(ttl=300)
-def get_balance(company_id: int) -> dict:
+def get_balance(company_id: str) -> dict:
     return _get(f"/api/v1/company/{company_id}/balance")
 
 
 @st.cache_data(ttl=300)
-def get_cashflow(company_id: int) -> dict:
+def get_cashflow(company_id: str) -> dict:
     return _get(f"/api/v1/company/{company_id}/cashflow")
 
 
 @st.cache_data(ttl=300)
-def get_price(company_id: int) -> dict:
+def get_price(company_id: str) -> dict:
     return _get(f"/api/v1/company/{company_id}/price")
 
 
 @st.cache_data(ttl=300)
-def get_peers(company_id: int, year: int = 2024) -> dict:
+def get_peers(company_id: str, year: int = 2024) -> dict:
     return _get(f"/api/v1/company/{company_id}/peers", {"year": year})
 
 
