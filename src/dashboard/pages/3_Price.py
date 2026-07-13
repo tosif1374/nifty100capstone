@@ -7,6 +7,7 @@ import sys, os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+from utils import latest_available_ratio
 from api_client import get_companies, get_price
 
 st.set_page_config(page_title="Price Analytics", layout="wide")
